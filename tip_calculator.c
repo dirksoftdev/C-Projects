@@ -32,6 +32,8 @@ int main(void) {
         printf("Please enter a value with two decimal places. \n");
      }
      
+     // I am using two conditions so I seperate it with ||
+
     } while (billAmount <= 0 || billAmount != round(billAmount * 100) /100);
 
    
