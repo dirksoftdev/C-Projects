@@ -61,10 +61,32 @@ int main(void) {
             printf("Total Bill: $%.2lf\n", totalBill);
         }
         else if (userInput ==2) {
-            printf("Enter the first number:\n");
-            scanf("%lf", &firstNumber);
-            printf("Enter the second number:\n");
-            scanf("%lf", &secondNumber);
+
+            //validating userinput for numeric value
+
+            while (1){
+                printf("Enter the first number:\n");
+                if (scanf("%lf", &firstNumber) == 1){
+                    break;
+                } else{
+                    printf("Invalid input! Please enter a numeric value.\n");
+                    // Clear the input buffer to remove any leftover characters, 
+                    // especially after invalid input, ensuring fresh input on next scanf.
+                    while (getchar() != '\n');  // Clear the input buffer
+                }
+            }
+
+            while (1) {
+                printf("Enter the second number:\n");
+                if (scanf("%lf", &secondNumber) == 1){
+                    break;
+                } else{
+                    printf("Invalid input! Please enter a numeric value.\n");
+                    // Clear the input buffer to remove any leftover characters, 
+                    // especially after invalid input, ensuring fresh input on next scanf.
+                    while (getchar() != '\n');  
+                }
+            }
 
 
             // Space after %c tells scanf to skip any leading whitespace or it might mistakenly capture newline character as input
@@ -118,3 +140,28 @@ int main(void) {
 
     return 0;
 }
+
+
+
+//Extra Comments 
+
+//%d for an integer (a whole number like 5, 42).
+//%lf for a double (a decimal number like 3.14, 2.718).
+//%c for a character (a single letter like 'a', 'B').
+
+
+//scanf Processes Input: scanf reads what the user types and checks if it matches the expected format.
+//Return Value:
+//1: If the input is a number and matches the format (e.g., %d for an integer), scanf stores it in memory and returns 1.
+//0: If the input doesn't match (e.g., the user enters a letter when a number is expected), scanf returns 0 and doesn't change the variable's value in memory.
+
+
+//Input Buffer
+//When you type something in the console (e.g., 123\n), your input goes into a temporary storage area in memory called the input buffer.
+//The \n at the end represents the Enter key you press after typing your input. It also gets stored in the input buffer.
+
+//getchar() is a function that reads a single character from the input buffer.
+//Each time you call getchar(), it removes one character from the buffer and returns it.
+
+//The loop while (getchar() != '\n'); keeps calling getchar() until it reads and discards the newline character \n.
+//This effectively clears out any remaining characters in the input buffer, leaving it empty for the next input.
