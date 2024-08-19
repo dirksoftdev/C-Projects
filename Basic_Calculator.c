@@ -59,8 +59,8 @@ int main(void) {
             printf("Bill Amount: $%.2lf\n", billAmount);
             printf("Tip Percentage: %d%%\n", tipPercentage);
             printf("Total Bill: $%.2lf\n", totalBill);
-
-        } else if (userInput ==2) {
+        }
+        else if (userInput ==2) {
             printf("Enter the first number:\n");
             scanf("%lf", &firstNumber);
             printf("Enter the second number:\n");
@@ -68,9 +68,18 @@ int main(void) {
 
 
             // Space after %c tells scanf to skip any leading whitespace or it might mistakenly capture newline character as input
-            printf("Enter the operator: Addition(+), Subtraction(-), Multiplication(*), Division(/):\n");
-            scanf(" %c", &operator);
+            while (1){
+                printf("Enter the operator: Addition(+), Subtraction(-), Multiplication(*), Division(/):\n");
+                scanf(" %c", &operator);
 
+                if (operator == '+' || operator == '-' || operator == '*' || operator == '/'){
+                    break;
+                } else{
+                    printf("Invalid operator! Please enter a valid operator (+, -, *, /).\n");
+                }
+                
+            }
+            
             switch (operator) {
                 case '+':
                     printf("Result: %.2lf\n", firstNumber + secondNumber);
@@ -91,47 +100,21 @@ int main(void) {
                     }
                     printf("Result: %.2lf\n", firstNumber / secondNumber);
                     break;
-                
-                default:
-                    while (operator != '+' && operator != '-' && operator != '*' && operator != '/') {
-                        printf("Invalid operator! Please enter a valid operator (+, -, *, /):\n");
-                        scanf(" %c", &operator);
-                    }
-
-                    switch (operator) {
-                        case '+':
-                            printf("Result: %.2lf\n", firstNumber + secondNumber);
-                            break;
-        
-                        case '-':
-                            printf("Result: %.2lf\n", firstNumber - secondNumber);
-                            break;
-        
-                        case '*':
-                            printf("Result: %.2lf\n", firstNumber * secondNumber);
-                            break;
-        
-                        case '/':
-                            while (secondNumber == 0) {  
-                                printf("Error: Division by 0 is not allowed. Please enter a non-zero value for the second number:\n");
-                                scanf("%lf", &secondNumber);
-                            }
-                            printf("Result: %.2lf\n", firstNumber / secondNumber);
-                            break;
                     
-                    
-                    }
-                    break;
             }
-                    
-        } else if (userInput == 0){   
+        } 
+        
+        else if (userInput == 0){   
             printf("Thank you for using the Calculator App!\n");
             break;
-        } else {
+
+        } 
+        
+        else {
             printf("Invalid Input! Please enter '1' or '2' or '0'.\n");
         }
             
-        }
+    }
 
     return 0;
 }
