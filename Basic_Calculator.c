@@ -1,141 +1,189 @@
+
 #include <stdio.h>
 #include <math.h>
 
-int main(void) {
-    int userInput;
 
-    //tip calculator initilisations 
-    double billAmount, totalBill;
-    double roundedAmount; 
+// Tip Calculator
+void tipCalculator() {
+    double billAmount, totalBill, roundedAmount;
     int tipPercentage;
 
-    //basic calculator initialisations
+    printf("What is the bill amount?\n");
+    scanf("%lf", &billAmount);
+    roundedAmount = round(billAmount * 100) / 100;
+
+    while (billAmount <= 0 || billAmount != roundedAmount) {
+        if (billAmount <= 0) {
+            printf("Please enter a valid bill amount greater than 0.\n");
+        } else if (billAmount != roundedAmount) {
+            printf("Please enter a value with two decimal places. \n");
+        }
+        // prompt the user again
+        printf("What is the bill amount?\n");
+        scanf("%lf", &billAmount);
+        roundedAmount = round(billAmount * 100) / 100;
+    }
+
+    // Validate tip percentage with a while loop
+    printf("What percentage are you tipping?\n");
+    scanf("%d", &tipPercentage);
+
+    while (tipPercentage <= 0) {
+        printf("Please enter a valid Tip Amount.\n");
+        
+        // Prompt the user again
+        printf("What percentage are you tipping?\n");
+        scanf("%d", &tipPercentage);
+    }
+
+    // Calculate total bill
+    totalBill = (billAmount * (tipPercentage / 100.0)) + billAmount;  
+
+    // Output summary
+    printf("\nSummary:\n");
+    printf("Bill Amount: $%.2lf\n", billAmount);
+    printf("Tip Percentage: %d%%\n", tipPercentage);
+    printf("Total Bill: $%.2lf\n", totalBill);
+}
+
+//Basic Calculator
+
+//Basic Calculator Mini-Functions
+
+double add(double a, double b) {
+    return a + b;
+}
+
+double subtract(double a, double b) {
+    return a - b;
+}
+
+double multiply(double a, double b) {
+    return a * b;
+}
+
+double divide(double a, double b) {
+    while (b == 0) {
+        printf("Error: Division by 0 is not allowed. Please enter a non-zero value for the second number:\n");
+        scanf("%lf", &b);
+    }
+    return a / b;
+}
+
+//Basic Calculator Function
+
+void basicCalculator() {
     double firstNumber, secondNumber;
     char operator;
+    double result;
 
+// Input and validation steps
+
+//Initialize to 0:
+// validInput is initialized to 0 because we haven't received valid input yet.
+
+// While not true (which means 0):
+// The loop runs as long as validInput is 0. The !validInput means "not valid," so the loop continues to prompt the user for a number.
+
+// If the input is a valid number:
+// scanf tries to read the input as a number. If it successfully reads a valid number, scanf returns 1 (indicating success).
+
+// If scanf outputs 1:
+// When scanf returns 1, it means the input is valid, so validInput is set to 1.
+
+// Exiting the loop:
+// Once validInput is set to 1, the loop condition !validInput becomes false, and the loop exits.
+
+  int validInput = 0; // Declare validInput once
+
+    // Input validation for the first number
+    while (!validInput) {
+        printf("Enter the first number:\n");
+        if (scanf("%lf", &firstNumber) == 1) {
+            validInput = 1; // Set to true if input is valid
+        } else {
+            printf("Invalid input! Please enter a numeric value.\n");
+            while (getchar() != '\n');  // Clear the input buffer
+        }
+    }
+
+    validInput = 0; // Reset validInput for the second number so you can use the same variable for the second number validation.
+
+    // Input validation for the second number
+    while (!validInput) {
+        printf("Enter the second number:\n");
+        if (scanf("%lf", &secondNumber) == 1) {
+            validInput = 1; // Set to true if input is valid
+        } else {
+            printf("Invalid input! Please enter a numeric value.\n");
+            while (getchar() != '\n');  // Clear the input buffer
+        }
+    }
+
+    int validOperator = 0; // Operator validation
+
+    // Space after %c tells scanf to skip any leading whitespace or it might mistakenly capture newline character as input
+
+    while (!validOperator) {
+        printf("Enter the operator: Addition(+), Subtraction(-), Multiplication(*), Division(/):\n");
+        scanf(" %c", &operator);
+        if (operator == '+' || operator == '-' || operator == '*' || operator == '/') {
+            validOperator = 1; // Set to true if input is valid
+        } else {
+            printf("Invalid operator! Please enter a valid operator (+, -, *, /).\n");
+        }
+    }
+
+    // Calculation and output
+    switch (operator) {
+        case '+':
+            result = add(firstNumber, secondNumber);
+            break;
+
+        case '-':
+            result = subtract(firstNumber, secondNumber);
+            break;
+
+        case '*':
+            result = multiply(firstNumber, secondNumber);
+            break;
+
+        case '/':
+            result = divide(firstNumber, secondNumber);
+            break;
+    }
+
+    printf("Result: %.2lf\n", result);
+}
+
+int main() {
+    int calculatorInput = -1; // Initialize the loop variable with a non-zero value
 
     // Prompt User for Input
     printf("\nWelcome to the Calculator App!\n\n");
 
-    while (1) {
-        printf("Enter '1' for Tip Calculator or Enter '2' for Basic Calculator or '0' to quit:\n");
-        scanf("%d", &userInput);
+    while (calculatorInput != 0) { // Loop until the user chooses to quit
+        printf("Enter '1' for Tip Calculator, '2' for Basic Calculator, or '0' to quit:\n");
 
-        if (userInput == 1){
-        
-            printf("What is the bill amount?\n");
-            scanf("%lf", &billAmount);
-            roundedAmount = round(billAmount * 100) / 100;
+        // Check if scanf successfully reads an integer if user enters "character"
+        if (scanf("%d", &calculatorInput) != 1) {
+            printf("Invalid Input! Please enter '1', '2', or '0'.\n");
 
-            while (billAmount <= 0 || billAmount != roundedAmount) {
-                if (billAmount <= 0) {
-                    printf("Please enter a valid bill amount greater than 0.\n");
-                } else if (billAmount != roundedAmount) {
-                    printf("Please enter a value with two decimal places. \n");
-                }
-                // prompt the user again
-                printf("What is the bill amount?\n");
-                scanf("%lf", &billAmount);
-                roundedAmount = round(billAmount * 100) / 100;
-            }
+            // Clear the input buffer
+            while (getchar() != '\n');  // Remove the leftover characters from the buffer
 
-            // Validate tip percentage with a while loop
-            printf("What percentage are you tipping?\n");
-            scanf("%d", &tipPercentage);
-
-            while (tipPercentage <= 0) {
-                printf("Please enter a valid Tip Amount.\n");
-                
-                // Prompt the user again
-                printf("What percentage are you tipping?\n");
-                scanf("%d", &tipPercentage);
-            }
-
-            // Calculate total bill
-            totalBill = (billAmount * (tipPercentage / 100.0)) + billAmount;  
-
-            // Output summary
-            printf("\nSummary:\n");
-            printf("Bill Amount: $%.2lf\n", billAmount);
-            printf("Tip Percentage: %d%%\n", tipPercentage);
-            printf("Total Bill: $%.2lf\n", totalBill);
+            continue; // Restart the loop to prompt again
         }
-        else if (userInput ==2) {
 
-            //validating userinput for numeric value
-
-            while (1){
-                printf("Enter the first number:\n");
-                if (scanf("%lf", &firstNumber) == 1){
-                    break;
-                } else{
-                    printf("Invalid input! Please enter a numeric value.\n");
-                    // Clear the input buffer to remove any leftover characters, 
-                    // especially after invalid input, ensuring fresh input on next scanf.
-                    while (getchar() != '\n');  // Clear the input buffer
-                }
-            }
-
-            while (1) {
-                printf("Enter the second number:\n");
-                if (scanf("%lf", &secondNumber) == 1){
-                    break;
-                } else{
-                    printf("Invalid input! Please enter a numeric value.\n");
-                    // Clear the input buffer to remove any leftover characters, 
-                    // especially after invalid input, ensuring fresh input on next scanf.
-                    while (getchar() != '\n');  
-                }
-            }
-
-
-            // Space after %c tells scanf to skip any leading whitespace or it might mistakenly capture newline character as input
-            while (1){
-                printf("Enter the operator: Addition(+), Subtraction(-), Multiplication(*), Division(/):\n");
-                scanf(" %c", &operator);
-
-                if (operator == '+' || operator == '-' || operator == '*' || operator == '/'){
-                    break;
-                } else{
-                    printf("Invalid operator! Please enter a valid operator (+, -, *, /).\n");
-                }
-                
-            }
-            
-            switch (operator) {
-                case '+':
-                    printf("Result: %.2lf\n", firstNumber + secondNumber);
-                    break;
-        
-                case '-':
-                    printf("Result: %.2lf\n", firstNumber - secondNumber);
-                    break;
-        
-                case '*':
-                    printf("Result: %.2lf\n", firstNumber * secondNumber);
-                    break;
-        
-                case '/':
-                    while (secondNumber == 0) {  
-                        printf("Error: Division by 0 is not allowed. Please enter a non-zero value for the second number:\n");
-                        scanf("%lf", &secondNumber);
-                    }
-                    printf("Result: %.2lf\n", firstNumber / secondNumber);
-                    break;
-                    
-            }
-        } 
-        
-        else if (userInput == 0){   
+        if (calculatorInput == 1) {
+            tipCalculator(); // Call the tipCalculator function
+        } else if (calculatorInput == 2) {
+            basicCalculator(); // Call the basicCalculator function
+        } else if (calculatorInput == 0) {   
             printf("Thank you for using the Calculator App!\n");
-            break;
-
-        } 
-        
-        else {
-            printf("Invalid Input! Please enter '1' or '2' or '0'.\n");
+        } else {
+            printf("Invalid Input! Please enter '1', '2', or '0'.\n");
         }
-            
     }
 
     return 0;
